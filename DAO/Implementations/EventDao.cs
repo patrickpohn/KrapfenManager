@@ -2,62 +2,59 @@
 using System.Collections.Generic;
 using System.Linq;
 using DAO.Interfaces;
-using Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAO.Implementations
 {
-    public class OrderDao : IOrderDao
+    public class EventDao : IEventDao
     {
-        private readonly DbContextOptionsBuilder _optionsBuilder;
         
-        public OrderDao(string db)
+        private readonly DbContextOptionsBuilder _optionsBuilder;
+
+        public EventDao(string db)
         {
             _optionsBuilder = new DbContextOptionsBuilder<ContextManager>();
             _optionsBuilder.UseMySql(db);
         }
         
-        public List<Order> GetAllOrders()
+        public List<Entities.Event> GetAllEvent()
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Order.ToList();
+            return ctx.Event.ToList();
         }
 
-        public Order GetOrderById(Guid? id)
+        public Entities.Event GetEventById(Guid? id)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Order.FirstOrDefault(k => k.Id.Equals(id));
+            return ctx.Event.FirstOrDefault(e => e.Id.Equals(id));
         }
 
-        public Order AddOrder(Order order)
+        public Entities.Event AddEvent(Entities.Event @event)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Add(order);
+            ctx.Event.Add(@event);
+            return @event;
+        }
+
+        public List<Entities.Event> AddEventRange(List<Entities.Event> @event)
+        {
+            using var ctx = new ContextManager(_optionsBuilder.Options);
+            ctx.Event.AddRange(@event);
+            return @event;
+        }
+
+        public Entities.Event UpdateEvent(Entities.Event @event)
+        {
+            using var ctx = new ContextManager(_optionsBuilder.Options);
+            ctx.Event.Update(@event);
             ctx.SaveChanges();
-            return order;
+            return @event;
         }
 
-        public List<Order> AddOrderRange(List<Order> order)
+        public void DeleteEvent(Entities.Event @event)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.AddRange(order);
-            ctx.SaveChanges();
-            return order;
-        }
-
-        public Order UpdateOrder(Order order)
-        {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Update(order);
-            ctx.SaveChanges();
-            return order;
-        }
-
-        public void DeleteOrder(Order order)
-        {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Remove(order);
-            ctx.SaveChanges();
+            ctx.Event.Remove(@event);
         }
     }
 }

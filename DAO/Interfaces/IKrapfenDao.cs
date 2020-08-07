@@ -8,6 +8,7 @@ namespace DAO.Interfaces
     {
         List<Krapfen> GetAllKrapfen();
         Krapfen GetKrapfenById(Guid? id);
+        Krapfen GetKrapfenByName(string name);
         Krapfen AddKrapfen(Krapfen krapfen);
         List<Krapfen> AddKrapfenRange(List<Krapfen> krapfen);
         Krapfen UpdateKrapfen(Krapfen krapfen);

@@ -22,19 +22,25 @@ namespace DAO.Implementations
         public List<Krapfen> GetAllKrapfen()
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.DbSetKrapfen.ToList();
+            return ctx.Krapfen.ToList();
         }
 
         public Krapfen GetKrapfenById(Guid? id)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.DbSetKrapfen.FirstOrDefault(k => k.Id.Equals(id));
+            return ctx.Krapfen.FirstOrDefault(k => k.Id.Equals(id));
+        }
+
+        public Krapfen GetKrapfenByName(string name)
+        {
+            using var ctx = new ContextManager(_optionsBuilder.Options);
+            return ctx.Krapfen.FirstOrDefault(k => k.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public Krapfen AddKrapfen(Krapfen krapfen)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.DbSetKrapfen.Add(krapfen);
+            ctx.Krapfen.Add(krapfen);
             ctx.SaveChanges();
             return krapfen;
         }
@@ -42,7 +48,7 @@ namespace DAO.Implementations
         public List<Krapfen> AddKrapfenRange(List<Krapfen> krapfen)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.DbSetKrapfen.AddRange(krapfen);
+            ctx.Krapfen.AddRange(krapfen);
             ctx.SaveChanges();
             return krapfen;
         }
@@ -50,7 +56,7 @@ namespace DAO.Implementations
         public Krapfen UpdateKrapfen(Krapfen krapfen)
         { 
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.DbSetKrapfen.Update(krapfen);
+            ctx.Krapfen.Update(krapfen);
             ctx.SaveChanges();
             return krapfen;
         }
@@ -58,7 +64,7 @@ namespace DAO.Implementations
         public void DeleteKrapfen(Krapfen krapfen)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.DbSetKrapfen.Remove(krapfen);
+            ctx.Krapfen.Remove(krapfen);
             ctx.SaveChanges();
         }
     }

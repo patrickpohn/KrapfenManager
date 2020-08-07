@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(ContextManager))]
-    [Migration("20200730183719_Order")]
-    partial class Order
+    [Migration("20200801075542_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,7 +38,7 @@ namespace DAO.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("DbSetKrapfen");
+                    b.ToTable("Krapfen");
                 });
 
             modelBuilder.Entity("Entities.Order", b =>
@@ -47,15 +47,62 @@ namespace DAO.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("OrderName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("Time")
+                    b.Property<DateTime>("PickUpTime")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("DbSetOrder");
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Entities.Selling", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<double>("Tip")
+                        .HasColumnType("double");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Selling");
+                });
+
+            modelBuilder.Entity("Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Entities.Krapfen", b =>
@@ -63,6 +110,17 @@ namespace DAO.Migrations
                     b.HasOne("Entities.Order", null)
                         .WithMany("Krapfens")
                         .HasForeignKey("OrderId");
+                });
+
+            modelBuilder.Entity("Entities.Selling", b =>
+                {
+                    b.HasOne("Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

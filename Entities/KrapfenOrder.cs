@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿﻿using System;
+ using System.ComponentModel.DataAnnotations;
 
-namespace Entities
+ namespace Entities
 {
     public class KrapfenOrder
     {
         public Guid Id { get; set; }
-        public List<Krapfen> Krapfen { get; set; }
+        [Required]
+        public Guid KrapfenId { get; set; }
+        public Guid OrderId { get; set; }
     }
 }

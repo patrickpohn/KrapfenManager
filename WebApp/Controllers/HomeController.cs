@@ -19,15 +19,16 @@ namespace WebApp.Controllers
             _logger = logger;
         }
 
-        public string Index()
+        public Krapfen Index()
         {
-            BL.BL.Instance.AddKrapfen(new Krapfen
+            var k = new Krapfen
             {
                 Id = Guid.NewGuid(),
                 Name = "Marille",
                 Price = 1.5
-            });
-            return "success";
+            };
+            BL.BL.Instance.AddKrapfen(k);
+            return k;
         }
     }
 }

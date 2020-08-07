@@ -3,38 +3,37 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAO.Migrations
 {
-    public partial class Order : Migration
+    public partial class AddEvent : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<Guid>(
-                name: "OrderId",
-                table: "DbSetKrapfen",
+                name: "EventId",
+                table: "Krapfen",
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "DbSetOrder",
+                name: "Event",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    OrderName = table.Column<string>(nullable: true),
-                    Time = table.Column<DateTime>(nullable: false)
+                    Type = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DbSetOrder", x => x.Id);
+                    table.PrimaryKey("PK_Event", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DbSetKrapfen_OrderId",
-                table: "DbSetKrapfen",
-                column: "OrderId");
+                name: "IX_Krapfen_EventId",
+                table: "Krapfen",
+                column: "EventId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_DbSetKrapfen_DbSetOrder_OrderId",
-                table: "DbSetKrapfen",
-                column: "OrderId",
-                principalTable: "DbSetOrder",
+                name: "FK_Krapfen_Event_EventId",
+                table: "Krapfen",
+                column: "EventId",
+                principalTable: "Event",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -42,19 +41,19 @@ namespace DAO.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_DbSetKrapfen_DbSetOrder_OrderId",
-                table: "DbSetKrapfen");
+                name: "FK_Krapfen_Event_EventId",
+                table: "Krapfen");
 
             migrationBuilder.DropTable(
-                name: "DbSetOrder");
+                name: "Event");
 
             migrationBuilder.DropIndex(
-                name: "IX_DbSetKrapfen_OrderId",
-                table: "DbSetKrapfen");
+                name: "IX_Krapfen_EventId",
+                table: "Krapfen");
 
             migrationBuilder.DropColumn(
-                name: "OrderId",
-                table: "DbSetKrapfen");
+                name: "EventId",
+                table: "Krapfen");
         }
     }
 }

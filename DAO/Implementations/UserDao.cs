@@ -7,56 +7,54 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAO.Implementations
 {
-    public class OrderDao : IOrderDao
+    public class UserDao : IUserDao
     {
         private readonly DbContextOptionsBuilder _optionsBuilder;
         
-        public OrderDao(string db)
+        public UserDao(string db)
         {
             _optionsBuilder = new DbContextOptionsBuilder<ContextManager>();
             _optionsBuilder.UseMySql(db);
         }
         
-        public List<Order> GetAllOrders()
+        public List<User> GetAllUser()
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Order.ToList();
+            return ctx.User.ToList();
         }
 
-        public Order GetOrderById(Guid? id)
+        public User GetUserById(Guid? id)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Order.FirstOrDefault(k => k.Id.Equals(id));
+            return ctx.User.FirstOrDefault(k => k.Id.Equals(id));
         }
 
-        public Order AddOrder(Order order)
+        public User GetUserByName(string name)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Add(order);
+            return ctx.User.FirstOrDefault(u => u.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public User AddUser(User user)
+        {
+            using var ctx = new ContextManager(_optionsBuilder.Options);
+            ctx.User.Add(user);
             ctx.SaveChanges();
-            return order;
+            return user;
         }
 
-        public List<Order> AddOrderRange(List<Order> order)
+        public User UpdateUser(User user)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.AddRange(order);
+            ctx.User.Update(user);
             ctx.SaveChanges();
-            return order;
+            return user;
         }
 
-        public Order UpdateOrder(Order order)
+        public void DeleteUser(User user)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Update(order);
-            ctx.SaveChanges();
-            return order;
-        }
-
-        public void DeleteOrder(Order order)
-        {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Remove(order);
+            ctx.User.Remove(user);
             ctx.SaveChanges();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using System.Reflection.Metadata.Ecma335;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAO
@@ -9,7 +10,10 @@ namespace DAO
             : base(options)
         { }
 
-        public DbSet<Krapfen> DbSetKrapfen { get; set; }
-        public DbSet<Order> DbSetOrder { get; set; }
+        public DbSet<Krapfen> Krapfen { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Selling> Selling { get; set; }
+        public DbSet<Event> Event { get; set; }
     }
 }

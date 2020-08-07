@@ -12,11 +12,17 @@ namespace BL
         private static BL _instance = null;
         private static IKrapfenDao _krapfenDao;
         private static IOrderDao _orderDao;
+        private static IEventDao _eventDao;
+        private static ISellingDao _sellingDao;
+        private static IUserDao _userDao;
 
         public void SetUpBl(string db)
         {
             _krapfenDao = new KrapfenDao(db);
             _orderDao = new OrderDao(db);
+            _eventDao = new EventDao(db);
+            _sellingDao = new SellingDao(db);
+            _userDao = new UserDao(db);
         }
 
         private BL()
@@ -34,6 +40,11 @@ namespace BL
         public Krapfen GetKrapfenById(Guid? id)
         {
             return _krapfenDao.GetKrapfenById(id);
+        }
+
+        public Krapfen GetKrapfenByName(string name)
+        {
+            return _krapfenDao.GetKrapfenByName(name);
         }
 
         public  Krapfen AddKrapfen(Krapfen krapfen)
@@ -71,31 +82,13 @@ namespace BL
 
         public Order AddOrder(Order order)
         {
-            order.Krapfens.ForEach(k =>
-            
-                k = GetKrapfenById(k.Id)
-            );
-            
             return _orderDao.AddOrder(order);
         }
-
-        public  List<Order> AddOrderRange(List<Order> order)
-        {
-            order.ForEach(o => 
-                o.Krapfens.ForEach(k => 
-                    k = GetKrapfenById(k.Id)
-                ));
-            
-            return _orderDao.AddOrderRange(order);
-        }
+        
 
         public  Order UpdateOrder(Order order)
         {
-            order.Krapfens.ForEach(
-                k => 
-                    k = GetKrapfenById(k.Id)
-                    );
-            return _orderDao.UpdateOrder(order);
+           return _orderDao.UpdateOrder(order);
         }
 
         public  void DeleteOrder(Order order)
@@ -104,6 +97,98 @@ namespace BL
         }
 
         #endregion
+
+        #region Event
         
+        public Event GetEventById(Guid id)
+        {
+            return _eventDao.GetEventById(id);
+        }
+
+        public Event AddEvent(Event @event)
+        {
+            return _eventDao.AddEvent(@event);
+        }
+
+        public  List<Event> GetAllEvent()
+        {
+            return _eventDao.GetAllEvent();
+        }
+
+        public Event UpdateEvent(Event @event)
+        {
+            return _eventDao.UpdateEvent(@event);
+        }
+
+        public void DeleteEvent(Event @event)
+        {
+            _eventDao.DeleteEvent(@event);
+        }
+
+        #endregion
+
+        #region Selling
+        
+        public Selling GetSellingById(Guid id)
+        {
+            return _sellingDao.GetSellingById(id);
+        }
+        
+        public  List<Selling> GetAllSelling()
+        {
+            return _sellingDao.GetAllSelling();
+        }
+
+        public Selling AddSelling(Selling selling)
+        {
+            return _sellingDao.AddSelling(selling);
+        }
+        
+        public Selling UpdateSelling(Selling selling)
+        {
+            return _sellingDao.UpdateSelling(selling);
+        }
+
+        public void DeleteSelling(Selling selling)
+        {
+            _sellingDao.DeleteSelling(selling);
+        }
+
+        #endregion
+        
+        #region User
+        
+        public User GetUserById(Guid? id)
+        {
+            return _userDao.GetUserById(id);
+        }
+        
+        public  List<User> GetAllUser()
+        {
+            return _userDao.GetAllUser();
+        }
+
+        public User GetUserByName(string name)
+        {
+            return _userDao.GetUserByName(name);
+        }
+
+        public User AddUser(User user)
+        {
+            return _userDao.AddUser(user);
+        }
+        
+        public User UpdateUser(User user)
+        {
+            return _userDao.UpdateUser(user);
+        }
+
+        public void DeleteUser(User user)
+        {
+            _userDao.DeleteUser(user);
+        }
+
+        #endregion
+
     }
 }

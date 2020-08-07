@@ -7,56 +7,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAO.Implementations
 {
-    public class OrderDao : IOrderDao
+    public class SellingDao : ISellingDao
     {
         private readonly DbContextOptionsBuilder _optionsBuilder;
         
-        public OrderDao(string db)
+        public SellingDao(string db)
         {
             _optionsBuilder = new DbContextOptionsBuilder<ContextManager>();
             _optionsBuilder.UseMySql(db);
         }
         
-        public List<Order> GetAllOrders()
+        public List<Selling> GetAllSelling()
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Order.ToList();
+            return ctx.Selling.ToList();
         }
 
-        public Order GetOrderById(Guid? id)
+        public Selling GetSellingById(Guid? id)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Order.FirstOrDefault(k => k.Id.Equals(id));
+            return ctx.Selling.FirstOrDefault(k => k.Id.Equals(id));
         }
 
-        public Order AddOrder(Order order)
+        public Selling AddSelling(Selling selling)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Add(order);
+            ctx.Selling.Add(selling);
             ctx.SaveChanges();
-            return order;
+            return selling;
         }
 
-        public List<Order> AddOrderRange(List<Order> order)
+        public Selling UpdateSelling(Selling selling)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.AddRange(order);
+            ctx.Selling.Update(selling);
             ctx.SaveChanges();
-            return order;
+            return selling;
         }
 
-        public Order UpdateOrder(Order order)
+        public void DeleteSelling(Selling selling)
         {
             using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Update(order);
-            ctx.SaveChanges();
-            return order;
-        }
-
-        public void DeleteOrder(Order order)
-        {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Remove(order);
+            ctx.Selling.Remove(selling);
             ctx.SaveChanges();
         }
     }

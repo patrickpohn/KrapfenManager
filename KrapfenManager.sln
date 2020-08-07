@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{D9812854-E079-400F-A544-BBE5C7EDF82D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAO", "DAO\DAO.csproj", "{98C562C1-26ED-44BB-9D0B-3908F489CEFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{D284B9EC-E0B4-4C70-9A1A-1C452AB4BA4F}"
@@ -16,10 +14,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D9812854-E079-400F-A544-BBE5C7EDF82D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9812854-E079-400F-A544-BBE5C7EDF82D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9812854-E079-400F-A544-BBE5C7EDF82D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9812854-E079-400F-A544-BBE5C7EDF82D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98C562C1-26ED-44BB-9D0B-3908F489CEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98C562C1-26ED-44BB-9D0B-3908F489CEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98C562C1-26ED-44BB-9D0B-3908F489CEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU

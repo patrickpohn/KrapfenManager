@@ -3,5 +3,5 @@
   &lt;Assembly Path="C:\Users\patri\.nuget\packages\microsoft.extensions.configuration\3.1.6\lib\netcoreapp3.1\Microsoft.Extensions.Configuration.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\patri\.nuget\packages\microsoft.extensions.configuration.abstractions\3.1.6\lib\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=d9812854_002De079_002D400f_002Da544_002Dbbe5c7edf82d_0023WebApp/@EntryIndexedValue">True</s:Boolean>
+	
 	</wpf:ResourceDictionary>
