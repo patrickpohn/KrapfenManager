@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DAO.Interfaces;
 using Entities;
 using Microsoft.EntityFrameworkCore;
@@ -17,39 +18,39 @@ namespace DAO.Implementations
             _optionsBuilder.UseMySql(db);
         }
         
-        public List<Selling> GetAllSelling()
+        public async Task<List<Selling>> GetAllSelling()
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Selling.ToList();
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Selling.ToListAsync();
         }
 
-        public Selling GetSellingById(Guid? id)
+        public async Task<Selling> GetSellingById(Guid? id)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Selling.FirstOrDefault(k => k.Id.Equals(id));
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Selling.FirstOrDefaultAsync(k => k.Id.Equals(id));
         }
 
-        public Selling AddSelling(Selling selling)
+        public async Task<Selling> AddSelling(Selling selling)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Selling.Add(selling);
-            ctx.SaveChanges();
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            await ctx.Selling.AddAsync(selling);
+            await ctx.SaveChangesAsync();
             return selling;
         }
 
-        public Selling UpdateSelling(Selling selling)
+        public async Task<Selling> UpdateSelling(Selling selling)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
             ctx.Selling.Update(selling);
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
             return selling;
         }
 
-        public void DeleteSelling(Selling selling)
+        public async void DeleteSelling(Selling selling)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
             ctx.Selling.Remove(selling);
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
         }
     }
 }

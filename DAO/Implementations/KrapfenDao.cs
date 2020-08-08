@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DAO.Interfaces;
 using Entities;
 using Microsoft.EntityFrameworkCore;
@@ -19,53 +20,45 @@ namespace DAO.Implementations
             _optionsBuilder.UseMySql(db);
         }
         
-        public List<Krapfen> GetAllKrapfen()
+        public async Task<List<Krapfen>> GetAllKrapfen()
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Krapfen.ToList();
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Krapfen.ToListAsync();
         }
 
-        public Krapfen GetKrapfenById(Guid? id)
+        public async Task<Krapfen> GetKrapfenById(Guid? id)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Krapfen.FirstOrDefault(k => k.Id.Equals(id));
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Krapfen.FirstOrDefaultAsync(k => k.Id.Equals(id));
         }
 
-        public Krapfen GetKrapfenByName(string name)
+        public async Task<Krapfen> GetKrapfenByName(string name)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Krapfen.FirstOrDefault(k => k.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Krapfen.FirstOrDefaultAsync(k => k.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        public Krapfen AddKrapfen(Krapfen krapfen)
+        public async Task<Krapfen> AddKrapfen(Krapfen krapfen)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Krapfen.Add(krapfen);
-            ctx.SaveChanges();
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            await ctx.Krapfen.AddAsync(krapfen);
+            await ctx.SaveChangesAsync();
             return krapfen;
         }
 
-        public List<Krapfen> AddKrapfenRange(List<Krapfen> krapfen)
-        {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Krapfen.AddRange(krapfen);
-            ctx.SaveChanges();
-            return krapfen;
-        }
-
-        public Krapfen UpdateKrapfen(Krapfen krapfen)
+        public async Task<Krapfen> UpdateKrapfen(Krapfen krapfen)
         { 
-            using var ctx = new ContextManager(_optionsBuilder.Options);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
             ctx.Krapfen.Update(krapfen);
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
             return krapfen;
         }
 
-        public void DeleteKrapfen(Krapfen krapfen)
+        public async void DeleteKrapfen(Krapfen krapfen)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
             ctx.Krapfen.Remove(krapfen);
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
         }
     }
 }

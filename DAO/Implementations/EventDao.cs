@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DAO.Interfaces;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAO.Implementations
@@ -17,44 +19,38 @@ namespace DAO.Implementations
             _optionsBuilder.UseMySql(db);
         }
         
-        public List<Entities.Event> GetAllEvent()
+        public async Task<List<Event>> GetAllEvent()
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Event.ToList();
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Event.ToListAsync();
         }
 
-        public Entities.Event GetEventById(Guid? id)
+        public async Task<Event> GetEventById(Guid? id)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Event.FirstOrDefault(e => e.Id.Equals(id));
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Event.FirstOrDefaultAsync(e => e.Id.Equals(id));
         }
 
-        public Entities.Event AddEvent(Entities.Event @event)
+        public async Task<Event> AddEvent(Event @event)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Event.Add(@event);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            await ctx.Event.AddAsync(@event);
             return @event;
         }
 
-        public List<Entities.Event> AddEventRange(List<Entities.Event> @event)
+        public async Task<Event> UpdateEvent(Event @event)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Event.AddRange(@event);
-            return @event;
-        }
-
-        public Entities.Event UpdateEvent(Entities.Event @event)
-        {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
             ctx.Event.Update(@event);
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
             return @event;
         }
 
-        public void DeleteEvent(Entities.Event @event)
+        public async void DeleteEvent(Event @event)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
             ctx.Event.Remove(@event);
+            await ctx.SaveChangesAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,29 +13,34 @@ namespace API.Controllers
             return Ok("Order");
         }
         
-        public IActionResult AddOrder(Order order)
+        public async Task<IActionResult> AddOrder(Order order)
         {
+            order.CreatedTime = DateTime.Now;
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values);
             order.Id ??= Guid.NewGuid();
-            return Ok(BL.BL.Instance.AddOrder(order));
+            return Ok(await BL.BL.Instance.AddOrder(order));
         }
         
-        public IActionResult GetOrder(Guid id)
+        public async Task<IActionResult> GetOrder(Guid id)
         {
-            return Ok(BL.BL.Instance.GetOrderById(id));
+            return Ok(await BL.BL.Instance.GetOrderById(id));
         }
 
-        public IActionResult GetAllOrder()
+        public async Task<IActionResult> GetAllOrder()
         {
-            return Ok(BL.BL.Instance.GetAllOrder());
+            return Ok(await BL.BL.Instance.GetAllOrder());
         }
         
-        public IActionResult EditOrder(Order order)
+        public async Task<IActionResult> EditOrder(Order order)
         {
-            return Ok(BL.BL.Instance.UpdateOrder(order));
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values);
+            if (await BL.BL.Instance.GetOrderById(order.Id) == null) return NotFound("Order not Found");
+            return Ok(await BL.BL.Instance.UpdateOrder(order));
         }
 
-        public IActionResult DeleteOrder(Order order)
+        public async Task<IActionResult> DeleteOrder(Order order)
         {
+            if (await BL.BL.Instance.GetOrderById(order.Id) == null) return NotFound("Order not Found");
             BL.BL.Instance.DeleteOrder(order);
             return Ok("Order deleted");
         }

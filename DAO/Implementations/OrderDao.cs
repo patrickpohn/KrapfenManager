@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DAO.Interfaces;
 using Entities;
 using Microsoft.EntityFrameworkCore;
@@ -17,47 +18,39 @@ namespace DAO.Implementations
             _optionsBuilder.UseMySql(db);
         }
         
-        public List<Order> GetAllOrders()
+        public async Task<List<Order>> GetAllOrders()
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Order.ToList();
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Order.ToListAsync();
         }
 
-        public Order GetOrderById(Guid? id)
+        public async Task<Order> GetOrderById(Guid? id)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            return ctx.Order.FirstOrDefault(k => k.Id.Equals(id));
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            return await ctx.Order.FirstOrDefaultAsync(k => k.Id.Equals(id));
         }
 
-        public Order AddOrder(Order order)
+        public async Task<Order> AddOrder(Order order)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.Add(order);
-            ctx.SaveChanges();
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            await ctx.Order.AddAsync(order);
+            await ctx.SaveChangesAsync();
             return order;
         }
 
-        public List<Order> AddOrderRange(List<Order> order)
+        public async Task<Order> UpdateOrder(Order order)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Order.AddRange(order);
-            ctx.SaveChanges();
-            return order;
-        }
-
-        public Order UpdateOrder(Order order)
-        {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
             ctx.Order.Update(order);
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
             return order;
         }
 
-        public void DeleteOrder(Order order)
+        public async void DeleteOrder(Order order)
         {
-            using var ctx = new ContextManager(_optionsBuilder.Options);
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
             ctx.Order.Remove(order);
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
         }
     }
 }

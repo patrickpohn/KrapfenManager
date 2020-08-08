@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.IO;  
 using System.Drawing;
 using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -16,11 +17,11 @@ namespace API.Controllers
             return Ok("Krapfen");
         }
         
-        public IActionResult AddKrapfen([FromBody] Krapfen krapfen)
+        public async Task<IActionResult> AddKrapfen([FromBody] Krapfen krapfen)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
 
-            var existingKrapfen = BL.BL.Instance.GetKrapfenByName(krapfen.Name);
+            var existingKrapfen = await BL.BL.Instance.GetKrapfenByName(krapfen.Name);
 
             if (existingKrapfen != null) return Ok(existingKrapfen);
             
@@ -28,26 +29,26 @@ namespace API.Controllers
             return Ok(BL.BL.Instance.AddKrapfen(krapfen));
         }
         
-        public IActionResult GetKrapfen([FromBody] Guid id)
+        public async Task<IActionResult> GetKrapfen([FromBody] Guid id)
         {
-            return Ok(BL.BL.Instance.GetKrapfenById(id));
+            return Ok(await BL.BL.Instance.GetKrapfenById(id));
         }
 
-        public IActionResult GetAllKrapfen()
+        public async Task<IActionResult> GetAllKrapfen()
         {
-            return Ok(BL.BL.Instance.GetAllKrapfen());
+            return Ok(await BL.BL.Instance.GetAllKrapfen());
         }
 
-        public IActionResult EditKrapfen([FromBody] Krapfen krapfen)
+        public async Task<IActionResult> EditKrapfen([FromBody] Krapfen krapfen)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
-            if (BL.BL.Instance.GetKrapfenById(krapfen.Id) == null) return NotFound("No Krapfen Found");
-            return Ok(BL.BL.Instance.UpdateKrapfen(krapfen));
+            if (await BL.BL.Instance.GetKrapfenById(krapfen.Id) == null) return NotFound("No Krapfen Found");
+            return Ok(await BL.BL.Instance.UpdateKrapfen(krapfen));
         }
 
-        public IActionResult GetImageFromKrapfen([FromBody] Guid guid)
+        public async Task<IActionResult> GetImageFromKrapfen([FromQuery] Guid guid)
         {
-            var krapfen = BL.BL.Instance.GetKrapfenById(guid);
+            var krapfen = await BL.BL.Instance.GetKrapfenById(guid);
             if (krapfen == null || string.IsNullOrEmpty(krapfen.Image)) return NotFound("No Krapfen Found");
 
             var imageBytes = Convert.FromBase64String(krapfen.Image);
@@ -55,8 +56,9 @@ namespace API.Controllers
             return File(imageBytes, "image/png");
         }
 
-        public IActionResult DeleteKrapfen([FromBody] Krapfen krapfen)
+        public async Task<IActionResult> DeleteKrapfen([FromBody] Krapfen krapfen)
         {
+            if (await BL.BL.Instance.GetKrapfenById(krapfen.Id) == null) return NotFound("No Krapfen Found");
             BL.BL.Instance.DeleteKrapfen(krapfen);
             return Ok("Krapfen deleted");
         }

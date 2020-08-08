@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DAO.Implementations;
 using DAO.Interfaces;
 using Entities;
@@ -32,37 +33,32 @@ namespace BL
         public static BL Instance => _instance ??= new BL();
 
         #region Krapfen
-        public  List<Krapfen> GetAllKrapfen()
+        public  async Task<List<Krapfen>> GetAllKrapfen()
         {
-            return _krapfenDao.GetAllKrapfen();
+            return await _krapfenDao.GetAllKrapfen();
         }
 
-        public Krapfen GetKrapfenById(Guid? id)
+        public async Task<Krapfen> GetKrapfenById(Guid? id)
         {
-            return _krapfenDao.GetKrapfenById(id);
+            return await _krapfenDao.GetKrapfenById(id);
         }
 
-        public Krapfen GetKrapfenByName(string name)
+        public async Task<Krapfen> GetKrapfenByName(string name)
         {
-            return _krapfenDao.GetKrapfenByName(name);
+            return await _krapfenDao.GetKrapfenByName(name);
         }
 
-        public  Krapfen AddKrapfen(Krapfen krapfen)
+        public async Task<Krapfen> AddKrapfen(Krapfen krapfen)
         {
-            return _krapfenDao.AddKrapfen(krapfen);
+            return await _krapfenDao.AddKrapfen(krapfen);
         }
 
-        public  List<Krapfen> AddKrapfenRange(List<Krapfen> krapfen)
+        public  async Task<Krapfen> UpdateKrapfen(Krapfen krapfen)
         {
-            return _krapfenDao.AddKrapfenRange(krapfen);
+            return await _krapfenDao.UpdateKrapfen(krapfen);
         }
 
-        public  Krapfen UpdateKrapfen(Krapfen krapfen)
-        {
-            return _krapfenDao.UpdateKrapfen(krapfen);
-        }
-
-        public  void DeleteKrapfen(Krapfen krapfen)
+        public void DeleteKrapfen(Krapfen krapfen)
         {
             _krapfenDao.DeleteKrapfen(krapfen);
         }
@@ -70,25 +66,25 @@ namespace BL
 
         #region Order
 
-        public  List<Order> GetAllOrder()
+        public async Task<List<Order>> GetAllOrder()
         {
-            return _orderDao.GetAllOrders();
+            return await _orderDao.GetAllOrders();
         }
 
-        public Order GetOrderById(Guid id)
+        public async Task<Order> GetOrderById(Guid? id)
         {
-            return _orderDao.GetOrderById(id);
+            return await _orderDao.GetOrderById(id);
         }
 
-        public Order AddOrder(Order order)
+        public async Task<Order> AddOrder(Order order)
         {
-            return _orderDao.AddOrder(order);
+            return await _orderDao.AddOrder(order);
         }
         
 
-        public  Order UpdateOrder(Order order)
+        public async Task<Order> UpdateOrder(Order order)
         {
-           return _orderDao.UpdateOrder(order);
+           return await _orderDao.UpdateOrder(order);
         }
 
         public  void DeleteOrder(Order order)
@@ -100,24 +96,24 @@ namespace BL
 
         #region Event
         
-        public Event GetEventById(Guid id)
+        public async Task<Event> GetEventById(Guid? id)
         {
-            return _eventDao.GetEventById(id);
+            return await _eventDao.GetEventById(id);
         }
 
-        public Event AddEvent(Event @event)
+        public async Task<Event> AddEvent(Event @event)
         {
-            return _eventDao.AddEvent(@event);
+            return await _eventDao.AddEvent(@event);
         }
 
-        public  List<Event> GetAllEvent()
+        public async Task<List<Event>> GetAllEvent()
         {
-            return _eventDao.GetAllEvent();
+            return await _eventDao.GetAllEvent();
         }
 
-        public Event UpdateEvent(Event @event)
+        public async Task<Event> UpdateEvent(Event @event)
         {
-            return _eventDao.UpdateEvent(@event);
+            return await _eventDao.UpdateEvent(@event);
         }
 
         public void DeleteEvent(Event @event)
@@ -129,24 +125,24 @@ namespace BL
 
         #region Selling
         
-        public Selling GetSellingById(Guid id)
+        public async Task<Selling> GetSellingById(Guid? id)
         {
-            return _sellingDao.GetSellingById(id);
+            return await _sellingDao.GetSellingById(id);
         }
         
-        public  List<Selling> GetAllSelling()
+        public  async Task<List<Selling>> GetAllSelling()
         {
-            return _sellingDao.GetAllSelling();
+            return await _sellingDao.GetAllSelling();
         }
 
-        public Selling AddSelling(Selling selling)
+        public async Task<Selling> AddSelling(Selling selling)
         {
-            return _sellingDao.AddSelling(selling);
+            return await _sellingDao.AddSelling(selling);
         }
         
-        public Selling UpdateSelling(Selling selling)
+        public async Task<Selling> UpdateSelling(Selling selling)
         {
-            return _sellingDao.UpdateSelling(selling);
+            return await _sellingDao.UpdateSelling(selling);
         }
 
         public void DeleteSelling(Selling selling)

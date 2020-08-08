@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,29 +13,33 @@ namespace API.Controllers
             return Ok("Event");
         }
         
-        public IActionResult AddEvent(Event @event)
+        public async Task<IActionResult> AddEvent(Event @event)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values);
             @event.Id ??= Guid.NewGuid();
-            return Ok(BL.BL.Instance.AddEvent(@event));
+            return Ok(await BL.BL.Instance.AddEvent(@event));
         }
         
-        public IActionResult GetEvent(Guid id)
+        public async Task<IActionResult> GetEvent(Guid id)
         {
-            return Ok(BL.BL.Instance.GetEventById(id));
+            return Ok(await BL.BL.Instance.GetEventById(id));
         }
 
-        public IActionResult GetAllEvent()
+        public async Task<IActionResult> GetAllEvent()
         {
-            return Ok(BL.BL.Instance.GetAllEvent());
+            return Ok(await BL.BL.Instance.GetAllEvent());
         }
 
-        public IActionResult EditEvent(Event @event)
+        public async Task<IActionResult> EditEvent(Event @event)
         {
-            return Ok(BL.BL.Instance.UpdateEvent(@event));
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values);
+            if (await BL.BL.Instance.GetEventById(@event.Id) == null) return NotFound("Event not found");
+            return Ok(await BL.BL.Instance.UpdateEvent(@event));
         }
 
-        public IActionResult DeleteEvent(Event @event)
+        public async Task<IActionResult> DeleteEvent(Event @event)
         {
+            if (await BL.BL.Instance.GetEventById(@event.Id) == null) return NotFound("Event not found");
             BL.BL.Instance.DeleteEvent(@event);
             return Ok("Event deleted");
         }

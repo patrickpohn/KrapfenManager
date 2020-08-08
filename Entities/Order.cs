@@ -15,6 +15,8 @@ namespace Entities
         [MinLength(2)]
         public string Description { get; set; }
         public DateTime PickUpTime { get; set; }
+        [Required]
+        public DateTime CreatedTime { get; set; }
         public List<KrapfenOrder> KrapfenOrder { get; set; }
     }
 }

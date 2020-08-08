@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Entities;
 
 namespace DAO.Interfaces
 {
     public interface IOrderDao
     {
-        List<Order> GetAllOrders();
-        Order GetOrderById(Guid? id);
-        Order AddOrder(Order order);
-        List<Order> AddOrderRange(List<Order> order);
-        Order UpdateOrder(Order order);
+        Task<List<Order>> GetAllOrders();
+        Task<Order> GetOrderById(Guid? id);
+        Task<Order> AddOrder(Order order);
+        Task<Order> UpdateOrder(Order order);
         void DeleteOrder(Order order);
     }
 }

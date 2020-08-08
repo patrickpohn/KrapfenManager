@@ -9,6 +9,8 @@ namespace Entities
         public Guid? Id { get; set; }
         [Required]
         public DateTime Date { get; set; }
+
+        public string Description { get; set; }
         public List<EventKrapfen> Krapfen { get; set; }
     }
 }

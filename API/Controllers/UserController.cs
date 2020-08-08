@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace API.Controllers
     public class UserController : Controller
     {
         // GET
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return Ok("User");
         }
