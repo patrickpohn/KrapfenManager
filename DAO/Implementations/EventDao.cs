@@ -22,7 +22,7 @@ namespace DAO.Implementations
         public async Task<List<Event>> GetAllEvent()
         {
             await using var ctx = new ContextManager(_optionsBuilder.Options);
-            return await ctx.Event.ToListAsync();
+            return await ctx.Event.Include(e => e.Krapfen).ToListAsync();
         }
 
         public async Task<Event> GetEventById(Guid? id)
@@ -35,6 +35,7 @@ namespace DAO.Implementations
         {
             await using var ctx = new ContextManager(_optionsBuilder.Options);
             await ctx.Event.AddAsync(@event);
+            await ctx.SaveChangesAsync();
             return @event;
         }
 
@@ -49,6 +50,13 @@ namespace DAO.Implementations
         public async void DeleteEvent(Event @event)
         {
             await using var ctx = new ContextManager(_optionsBuilder.Options);
+
+            if (!@event.Krapfen.Any())
+            {
+                @event.Krapfen = null;
+            }
+            
+            ctx.Event.Attach(@event);
             ctx.Event.Remove(@event);
             await ctx.SaveChangesAsync();
         }

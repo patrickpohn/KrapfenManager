@@ -28,6 +28,7 @@ namespace API.Controllers
         [Route("addKrapfen")]
         public async Task<IActionResult> AddKrapfenToOrder(KrapfenOrder krapfenOrder)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values);
             if (await BL.BL.Instance.GetKrapfenById(krapfenOrder.Krapfen) == null)
                 return NotFound("Krapfen not Found");
             if (await BL.BL.Instance.GetOrderById(krapfenOrder.Order) == null)

@@ -11,6 +11,7 @@ namespace Entities
         [NotMapped]
         public Guid Event { get; set; }
         [Required]
+        [ForeignKey("Krapfen")]
         public Guid Krapfen { get; set; }
     }
 }
