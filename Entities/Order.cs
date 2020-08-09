@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities
 {
     public class Order
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid? Id { get; set; }
         [Required]
         [MaxLength(50)]
@@ -18,5 +20,10 @@ namespace Entities
         [Required]
         public DateTime CreatedTime { get; set; }
         public List<KrapfenOrder> KrapfenOrder { get; set; }
+
+        public Order()
+        {
+            KrapfenOrder = new List<KrapfenOrder>();
+        }
     }
 }

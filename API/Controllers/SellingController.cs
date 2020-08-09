@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Route("selling")]
     public class SellingController : Controller
     {
-        // GET
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return Ok("Selling");
+            return Ok(await BL.BL.Instance.GetAllSelling());
         }
         
+        [HttpPost]
+        [Route("add")]
         public async Task<IActionResult> AddSelling(Selling selling)
         {
             if (selling.Time.Day != DateTime.Now.Day)
@@ -25,16 +28,15 @@ namespace API.Controllers
             return Ok(await BL.BL.Instance.AddSelling(selling));
         }
         
+        [HttpGet]
+        [Route("get")]
         public async Task<IActionResult> GetSelling(Guid id)
         {
             return Ok(await BL.BL.Instance.GetSellingById(id));
         }
 
-        public async Task<IActionResult> GetAllSelling()
-        {
-            return Ok(await BL.BL.Instance.GetAllSelling());
-        }
-
+        [HttpPut]
+        [Route("edit")]
         public async Task<IActionResult> EditSelling(Selling selling)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
@@ -42,6 +44,8 @@ namespace API.Controllers
             return Ok(await BL.BL.Instance.UpdateSelling(selling));
         }
 
+        [HttpDelete]
+        [Route("delete")]
         public async Task<IActionResult> DeleteSelling(Selling selling)
         {
             if (await BL.BL.Instance.GetSellingById(selling.Id) == null) return NotFound("Selling not Found");

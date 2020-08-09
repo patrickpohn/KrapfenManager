@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace API
 {
@@ -25,7 +26,10 @@ namespace API
                 options.UseMySql(Configuration.GetConnectionString("KrapfenDb")));
             services.AddControllersWithViews();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddSingleton<ContextManager>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo{Title = "Krapfen API", Version = "1.0"});
+            });
 
         }
 
@@ -55,6 +59,12 @@ namespace API
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "KrapfenManager 1.0");
             });
         }
     }

@@ -8,15 +8,19 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace API.Controllers
+
 {
+    [Route("krapfen")]
     public class KrapfenController : Controller
     {
-        // GET
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return Ok("Krapfen");
+            return Ok(await BL.BL.Instance.GetAllKrapfen());
         }
         
+        [Route("add")]
+        [HttpPost]
         public async Task<IActionResult> AddKrapfen([FromBody] Krapfen krapfen)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
@@ -28,17 +32,16 @@ namespace API.Controllers
             krapfen.Id ??= Guid.NewGuid();
             return Ok(BL.BL.Instance.AddKrapfen(krapfen));
         }
-        
-        public async Task<IActionResult> GetKrapfen([FromBody] Guid id)
+
+        [Route("get")]
+        [HttpGet]
+        public async Task<IActionResult> GetKrapfen(Guid id)
         {
             return Ok(await BL.BL.Instance.GetKrapfenById(id));
         }
-
-        public async Task<IActionResult> GetAllKrapfen()
-        {
-            return Ok(await BL.BL.Instance.GetAllKrapfen());
-        }
-
+        
+        [Route("edit")]
+        [HttpPut]
         public async Task<IActionResult> EditKrapfen([FromBody] Krapfen krapfen)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
@@ -46,6 +49,8 @@ namespace API.Controllers
             return Ok(await BL.BL.Instance.UpdateKrapfen(krapfen));
         }
 
+        [Route("getImage")]
+        [HttpPost]
         public async Task<IActionResult> GetImageFromKrapfen([FromQuery] Guid guid)
         {
             var krapfen = await BL.BL.Instance.GetKrapfenById(guid);
@@ -56,6 +61,8 @@ namespace API.Controllers
             return File(imageBytes, "image/png");
         }
 
+        [Route("delete")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteKrapfen([FromBody] Krapfen krapfen)
         {
             if (await BL.BL.Instance.GetKrapfenById(krapfen.Id) == null) return NotFound("No Krapfen Found");

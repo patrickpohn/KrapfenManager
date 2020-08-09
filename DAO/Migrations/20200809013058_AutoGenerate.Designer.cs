@@ -3,14 +3,16 @@ using System;
 using DAO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAO.Migrations
 {
     [DbContext(typeof(ContextManager))]
-    partial class ContextManagerModelSnapshot : ModelSnapshot
+    [Migration("20200809013058_AutoGenerate")]
+    partial class AutoGenerate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,12 +45,14 @@ namespace DAO.Migrations
                     b.Property<Guid?>("EventId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Krapfen")
+                    b.Property<Guid?>("KrapfenId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("KrapfenId");
 
                     b.ToTable("EventKrapfen");
                 });
@@ -80,13 +84,15 @@ namespace DAO.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Krapfen")
+                    b.Property<Guid>("KrapfenId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("KrapfenId");
 
                     b.HasIndex("OrderId");
 
@@ -166,14 +172,24 @@ namespace DAO.Migrations
 
             modelBuilder.Entity("Entities.EventKrapfen", b =>
                 {
-                    b.HasOne("Entities.Event", null)
+                    b.HasOne("Entities.Event", "Event")
                         .WithMany("Krapfen")
                         .HasForeignKey("EventId");
+
+                    b.HasOne("Entities.Krapfen", "Krapfen")
+                        .WithMany()
+                        .HasForeignKey("KrapfenId");
                 });
 
             modelBuilder.Entity("Entities.KrapfenOrder", b =>
                 {
-                    b.HasOne("Entities.Order", null)
+                    b.HasOne("Entities.Krapfen", "Krapfen")
+                        .WithMany()
+                        .HasForeignKey("KrapfenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Order", "Order")
                         .WithMany("KrapfenOrder")
                         .HasForeignKey("OrderId");
                 });

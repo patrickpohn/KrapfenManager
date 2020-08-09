@@ -3,14 +3,16 @@ using System;
 using DAO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAO.Migrations
 {
     [DbContext(typeof(ContextManager))]
-    partial class ContextManagerModelSnapshot : ModelSnapshot
+    [Migration("20200809015403_SwitchBackToGuids")]
+    partial class SwitchBackToGuids
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +40,9 @@ namespace DAO.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("Event")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("EventId")
@@ -81,6 +86,9 @@ namespace DAO.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("Krapfen")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("Order")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("OrderId")

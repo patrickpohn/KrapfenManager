@@ -21,13 +21,13 @@ namespace DAO.Implementations
         public async Task<List<Order>> GetAllOrders()
         {
             await using var ctx = new ContextManager(_optionsBuilder.Options);
-            return await ctx.Order.ToListAsync();
+            return await ctx.Order.Include(o => o.KrapfenOrder).ToListAsync();
         }
 
         public async Task<Order> GetOrderById(Guid? id)
         {
             await using var ctx = new ContextManager(_optionsBuilder.Options);
-            return await ctx.Order.FirstOrDefaultAsync(k => k.Id.Equals(id));
+            return await ctx.Order.Include(o => o.KrapfenOrder).FirstOrDefaultAsync(k => k.Id.Equals(id));
         }
 
         public async Task<Order> AddOrder(Order order)

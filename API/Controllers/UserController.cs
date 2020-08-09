@@ -6,15 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Route("user")]
     public class UserController : Controller
     {
-        // GET
-        public async Task<IActionResult> Index()
+        
+        [HttpGet]
+        public IActionResult Index()
         {
-            return Ok("User");
+            return Ok(BL.BL.Instance.GetAllUser());
         }
         
         [HttpPost]
+        [Route("add")]
         public IActionResult AddUser([FromBody]User user)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
@@ -26,17 +29,15 @@ namespace API.Controllers
             return Ok(BL.BL.Instance.AddUser(user));
         }
         
+        [HttpGet]
+        [Route("get")]
         public IActionResult GetUser([FromBody]Guid id)
         {
             return Ok(BL.BL.Instance.GetUserById(id));
         }
 
-        public IActionResult GetAllUser()
-        {
-            return Ok(BL.BL.Instance.GetAllUser());
-        }
-
-        [HttpPost]
+        [HttpPut]
+        [Route("edit")]
         public IActionResult EditUser([FromBody] User user)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
@@ -44,7 +45,8 @@ namespace API.Controllers
             return Ok(BL.BL.Instance.UpdateUser(user));
         }
 
-        [HttpPost]
+        [HttpDelete]
+        [Route("delete")]
         public IActionResult DeleteUser([FromBody]User user)
         {
             if (user.Id == null) return BadRequest("No Id");
