@@ -51,7 +51,7 @@ namespace API.Controllers
 
         [Route("getImage")]
         [HttpPost]
-        public async Task<IActionResult> GetImageFromKrapfen([FromQuery] Guid guid)
+        public async Task<IActionResult> GetImageFromKrapfen(Guid guid)
         {
             var krapfen = await BL.BL.Instance.GetKrapfenById(guid);
             if (krapfen == null || string.IsNullOrEmpty(krapfen.Image)) return NotFound("No Krapfen Found");
