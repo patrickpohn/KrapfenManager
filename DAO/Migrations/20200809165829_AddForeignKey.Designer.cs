@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAO.Migrations
 {
     [DbContext(typeof(ContextManager))]
-    [Migration("20200801075542_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200809165829_AddForeignKey")]
+    partial class AddForeignKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,26 +19,80 @@ namespace DAO.Migrations
                 .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Entities.Event", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Event");
+                });
+
+            modelBuilder.Entity("Entities.EventKrapfen", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("Krapfen")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("EventKrapfen");
+                });
+
             modelBuilder.Entity("Entities.Krapfen", b =>
                 {
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Image")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<double>("Price")
                         .HasColumnType("double");
 
                     b.HasKey("Id");
 
+                    b.ToTable("Krapfen");
+                });
+
+            modelBuilder.Entity("Entities.KrapfenOrder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("Krapfen")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Krapfen");
+                    b.ToTable("KrapfenOrder");
                 });
 
             modelBuilder.Entity("Entities.Order", b =>
@@ -47,11 +101,17 @@ namespace DAO.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
+                        .HasMaxLength(200);
 
                     b.Property<string>("OrderName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("PickUpTime")
                         .HasColumnType("datetime(6)");
@@ -93,11 +153,12 @@ namespace DAO.Migrations
 
             modelBuilder.Entity("Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
@@ -105,10 +166,17 @@ namespace DAO.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Entities.Krapfen", b =>
+            modelBuilder.Entity("Entities.EventKrapfen", b =>
+                {
+                    b.HasOne("Entities.Event", null)
+                        .WithMany("Krapfen")
+                        .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("Entities.KrapfenOrder", b =>
                 {
                     b.HasOne("Entities.Order", null)
-                        .WithMany("Krapfens")
+                        .WithMany("KrapfenOrder")
                         .HasForeignKey("OrderId");
                 });
 
