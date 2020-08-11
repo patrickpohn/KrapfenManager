@@ -50,7 +50,7 @@ namespace API.Controllers
         }
 
         [Route("getImage")]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> GetImageFromKrapfen(Guid guid)
         {
             var krapfen = await BL.BL.Instance.GetKrapfenById(guid);
