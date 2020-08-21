@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("user")]
+    [EnableCors("AllowCors"), Route("user")]
     public class UserController : Controller
     {
         

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("order")]
+    [EnableCors("AllowCors"), Route("order")]
     public class OrderController : Controller
     {
         [HttpGet]

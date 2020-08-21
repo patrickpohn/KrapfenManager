@@ -6,11 +6,12 @@ using System.IO;
 using System.Drawing;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace API.Controllers
 
 {
-    [Route("krapfen")]
+    [EnableCors("AllowCors"), Route("krapfen")]
     public class KrapfenController : Controller
     {
         [HttpGet]

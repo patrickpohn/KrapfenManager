@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("event")]
+    [EnableCors("AllowCors"), Route("event")]
     public class EventController : Controller
     {
         [HttpGet]

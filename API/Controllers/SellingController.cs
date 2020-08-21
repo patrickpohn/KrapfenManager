@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("selling")]
+    [EnableCors("AllowCors"), Route("selling")]
     public class SellingController : Controller
     {
         [HttpGet]

@@ -12,7 +12,6 @@ namespace API
 {
     public class Startup
     {
-        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             BL.BL.Instance.SetUpBl(configuration.GetConnectionString("KrapfenDb"));
@@ -26,11 +25,11 @@ namespace API
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:4200");
-                    });
+                options.AddPolicy("AllowCors", builder => builder.AllowAnyOrigin().WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed((host) => true));
             });
             services.AddDbContext<ContextManager>(options => 
                 options.UseMySql(Configuration.GetConnectionString("KrapfenDb")));
