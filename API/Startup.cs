@@ -11,6 +11,7 @@ namespace API
 {
     public class Startup
     {
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             BL.BL.Instance.SetUpBl(configuration.GetConnectionString("KrapfenDb"));
@@ -22,6 +23,14 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200");
+                    });
+            });
             services.AddDbContext<ContextManager>(options => 
                 options.UseMySql(Configuration.GetConnectionString("KrapfenDb")));
             services.AddControllersWithViews();
@@ -51,6 +60,8 @@ namespace API
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
