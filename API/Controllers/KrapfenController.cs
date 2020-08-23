@@ -17,7 +17,12 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return Ok(await BL.BL.Instance.GetAllKrapfen());
+            var krapfen = await BL.BL.Instance.GetAllKrapfen();
+            foreach (var k in krapfen)
+            {
+                k.Image = string.Empty;
+            }
+            return Ok(krapfen);
         }
         
         [Route("add")]
