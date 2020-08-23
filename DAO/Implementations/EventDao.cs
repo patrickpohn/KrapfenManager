@@ -42,9 +42,15 @@ namespace DAO.Implementations
         public async Task<Event> UpdateEvent(Event @event)
         {
             await using var ctx = new ContextManager(_optionsBuilder.Options);
-            ctx.Event.Update(@event);
-            await ctx.SaveChangesAsync();
             return @event;
+        }
+
+        public async void RemoveEventKrapfen(Guid? guid)
+        {
+            await using var ctx = new ContextManager(_optionsBuilder.Options);
+            var toRemove = ctx.EventKrapfen.Where(ek => ek.Krapfen.Equals(guid));
+            ctx.EventKrapfen.RemoveRange(toRemove);
+            await ctx.SaveChangesAsync();
         }
 
         public async void DeleteEvent(Event @event)

@@ -11,6 +11,7 @@ namespace DAO.Interfaces
         Task<Event> GetEventById(Guid? id);
         Task<Event> AddEvent(Event @event);
         Task<Event> UpdateEvent(Event @event);
+        void RemoveEventKrapfen(Guid? guid);
         void DeleteEvent(Event @event);
     }
 }

@@ -73,20 +73,8 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteKrapfen([FromBody] Krapfen krapfen)
         {
             if (await BL.BL.Instance.GetKrapfenById(krapfen.Id) == null) return NotFound("No Krapfen Found");
-
-            var events = await BL.BL.Instance.GetAllEvent();
             
-            foreach (var @event in events)
-            {
-                foreach (var eventKrapfen in @event.Krapfen
-                    .Where(eventKrapfen => eventKrapfen.Krapfen == krapfen.Id))
-                {
-                    @event.Krapfen.Remove(eventKrapfen);
-                    await BL.BL.Instance.UpdateEvent(@event);
-                }
-            }
-            
-            
+            BL.BL.Instance.RemoveEventKrapfen(krapfen.Id);
             BL.BL.Instance.DeleteKrapfen(krapfen);
             return Ok("Krapfen deleted");
         }

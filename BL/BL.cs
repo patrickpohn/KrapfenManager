@@ -33,7 +33,8 @@ namespace BL
         public static BL Instance => _instance ??= new BL();
 
         #region Krapfen
-        public  async Task<List<Krapfen>> GetAllKrapfen()
+
+        public async Task<List<Krapfen>> GetAllKrapfen()
         {
             return await _krapfenDao.GetAllKrapfen();
         }
@@ -53,7 +54,7 @@ namespace BL
             return await _krapfenDao.AddKrapfen(krapfen);
         }
 
-        public  async Task<Krapfen> UpdateKrapfen(Krapfen krapfen)
+        public async Task<Krapfen> UpdateKrapfen(Krapfen krapfen)
         {
             return await _krapfenDao.UpdateKrapfen(krapfen);
         }
@@ -62,6 +63,7 @@ namespace BL
         {
             _krapfenDao.DeleteKrapfen(krapfen);
         }
+
         #endregion
 
         #region Order
@@ -80,14 +82,14 @@ namespace BL
         {
             return await _orderDao.AddOrder(order);
         }
-        
+
 
         public async Task<Order> UpdateOrder(Order order)
         {
-           return await _orderDao.UpdateOrder(order);
+            return await _orderDao.UpdateOrder(order);
         }
 
-        public  void DeleteOrder(Order order)
+        public void DeleteOrder(Order order)
         {
             _orderDao.DeleteOrder(order);
         }
@@ -95,7 +97,7 @@ namespace BL
         #endregion
 
         #region Event
-        
+
         public async Task<Event> GetEventById(Guid? id)
         {
             return await _eventDao.GetEventById(id);
@@ -114,6 +116,11 @@ namespace BL
         public async Task<Event> UpdateEvent(Event @event)
         {
             return await _eventDao.UpdateEvent(@event);
+        }
+
+        public async void RemoveEventKrapfen(Guid? guid)
+        {
+            _eventDao.RemoveEventKrapfen(guid);
         }
 
         public void DeleteEvent(Event @event)

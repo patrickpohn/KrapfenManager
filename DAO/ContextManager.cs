@@ -18,6 +18,7 @@ namespace DAO
         public DbSet<User> User { get; set; }
         public DbSet<Selling> Selling { get; set; }
         public DbSet<Event> Event { get; set; }
+        public DbSet<EventKrapfen> EventKrapfen { get; set; }
     }
     
     public class BloggingContextFactory : IDesignTimeDbContextFactory<ContextManager>
