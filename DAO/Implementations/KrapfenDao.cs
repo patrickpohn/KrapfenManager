@@ -38,11 +38,11 @@ namespace DAO.Implementations
             return await ctx.Krapfen.FirstOrDefaultAsync(k => k.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        public async Task<Krapfen> AddKrapfen(Krapfen krapfen)
+        public Krapfen AddKrapfen(Krapfen krapfen)
         {
-            await using var ctx = new ContextManager(_optionsBuilder.Options);
-            await ctx.Krapfen.AddAsync(krapfen);
-            await ctx.SaveChangesAsync();
+            using var ctx = new ContextManager(_optionsBuilder.Options);
+            ctx.Krapfen.Add(krapfen);
+            ctx.SaveChanges();
             return krapfen;
         }
 

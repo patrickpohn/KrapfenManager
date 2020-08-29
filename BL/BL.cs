@@ -49,9 +49,9 @@ namespace BL
             return await _krapfenDao.GetKrapfenByName(name);
         }
 
-        public async Task<Krapfen> AddKrapfen(Krapfen krapfen)
+        public Krapfen AddKrapfen(Krapfen krapfen)
         {
-            return await _krapfenDao.AddKrapfen(krapfen);
+            return _krapfenDao.AddKrapfen(krapfen);
         }
 
         public async Task<Krapfen> UpdateKrapfen(Krapfen krapfen)

@@ -28,15 +28,16 @@ namespace API.Controllers
         
         [Route("add")]
         [HttpPost]
-        public async Task<IActionResult> AddKrapfen([FromBody] Krapfen krapfen)
+        public IActionResult AddKrapfen([FromBody] Krapfen krapfen)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values);
 
-            var existingKrapfen = await BL.BL.Instance.GetKrapfenByName(krapfen.Name);
+            var existingKrapfen = BL.BL.Instance.GetKrapfenByName(krapfen.Name);
 
-            if (existingKrapfen != null) return Ok(existingKrapfen);
-            
             krapfen.Id ??= Guid.NewGuid();
+            if (existingKrapfen.Result != null) return Ok(existingKrapfen);
+            
+           
             return Ok(BL.BL.Instance.AddKrapfen(krapfen));
         }
 

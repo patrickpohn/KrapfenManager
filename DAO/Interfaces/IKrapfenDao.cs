@@ -10,7 +10,7 @@ namespace DAO.Interfaces
         Task<List<Krapfen>> GetAllKrapfen();
         Task<Krapfen> GetKrapfenById(Guid? id);
         Task<Krapfen> GetKrapfenByName(string name);
-        Task<Krapfen> AddKrapfen(Krapfen krapfen);
+        Krapfen AddKrapfen(Krapfen krapfen);
         Task<Krapfen> UpdateKrapfen(Krapfen krapfen);
         void DeleteKrapfen(Krapfen krapfen);
         
